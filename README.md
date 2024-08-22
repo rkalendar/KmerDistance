@@ -31,6 +31,6 @@ To run the project from the command line, go to the target folder and type the f
 
 ### Examples:
 ```
-java -jar <KmersPatternPath>\dist\KmersPattern.jar \test\t1.txt
+java -jar C:\MyPrograms\Java\dist\KmersPattern.jar C:\MyPrograms\Java\KmersPattern\test\t1.txt 
 
 ```
