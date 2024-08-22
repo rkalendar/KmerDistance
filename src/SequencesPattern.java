@@ -69,7 +69,15 @@ public final class SequencesPattern {
         }
         sr.append("\n");
 
+        for (int n1 = 0; n1 < nkmers; n1++) {
+            for (int n2 = n1 + 1; n2 < nkmers; n2++) {
+                k++;
+            }
+        }
+
         int[][] m2 = new int[nseq][nkmers];
+        int[][] m3 = new int[nseq][k];
+
         for (int j = 0; j < nseq; j++) {
             String r = dna.ComplementDNA2(seq[j]);
             for (int i = 0; i < seq[j].length() - kmer + 1; i++) {
@@ -83,35 +91,73 @@ public final class SequencesPattern {
                 }
             }
 
-            for (int n1 = 0; n1 < nkmers; n1++) {
-                for (int n2 = n1 + 1; n2 < nkmers; n2++) {
-                    k++;
-                }
-            }
-            double[] m3 = new double[k];
             int h = -1;
             for (int n1 = 0; n1 < nkmers; n1++) {
                 int v1 = m2[j][n1];
                 for (int n2 = n1 + 1; n2 < nkmers; n2++) {
                     int v2 = m2[j][n2];
-                    m3[++h] = 0;
+                    m3[j][++h] = 0;
                     if (v1 > 0 && v2 > 0) {
                         double d;
                         if (v1 < v2) {
-                            d = (double) (1000 * v1) / v2;
+                            d = (1000 * v1) / v2;
                         } else {
-                            d = (double) (1000 * v2) / v1;
+                            d = (1000 * v2) / v1;
                         }
-                        m3[h] = d;
+                        m3[j][h] = (int) d;
                     }
                 }
             }
             sr.append(sname[j]).append("\t");
             for (int n2 = 0; n2 < k; n2++) {
-                sr.append((int) m3[n2]).append("\t");
+                sr.append(m3[j][n2]).append("\t");
             }
             sr.append("\n");
         }
+
+        int[][] mf = new int[nseq][nseq];
+
+        for (int j = 0; j < nseq - 1; j++) {
+            for (int i = j + 1; i < nseq; i++) {
+                int v = 0;
+                double d;
+                for (int n = 0; n < k; n++) {
+                    if (m3[j][n] == m3[i][i]) {
+                        v++;
+                    } else {
+                        if (m3[j][n] > m3[i][n]) {
+                            if (m3[j][n] < (0.3 * m3[i][n])) {
+                                v++;
+                            }
+                        } else {
+                            if (m3[j][n] > (0.3 * m3[i][n])) {
+                                v++;
+                            }
+                        }
+                    }
+                }
+                mf[j][i] = (100 * v) / k;
+                mf[i][j] = mf[j][i];
+            }
+        }
+
+        sr.append("\n \t");
+        for (int j = 0; j < nseq; j++) {
+            sr.append(sname[j]).append("\t");
+        }
+        sr.append("\n");
+        for (int i = 0; i < nseq - 1; i++) {
+            sr.append(sname[i]).append("\t");
+            for (int n = 0; n < nseq; n++) {
+                if (i == n) {
+                    sr.append(100).append("\t");
+                } else {
+                    sr.append(mf[i][n]).append("\t");
+                }
+            }
+            sr.append("\n");
+        }
+        sr.append("\n");
 
         String reportfile = filePath + ".xls";
         try (FileWriter fileWriter = new FileWriter(reportfile); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
