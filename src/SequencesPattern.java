@@ -55,12 +55,15 @@ public final class SequencesPattern {
         int nkmers = pt.size();
         int kmer = 5;
         int k = 0;
+
         String[] keys = new String[nkmers];
         for (Map.Entry<String, Integer> entry : pt.entrySet()) {
             String key = entry.getKey();
+            kmer = key.length();
             Integer value = entry.getValue();
             keys[value] = key;
         }
+
         sr.append("ID\t");
         for (int n1 = 0; n1 < nkmers; n1++) {
             for (int n2 = n1 + 1; n2 < nkmers; n2++) {
@@ -120,23 +123,22 @@ public final class SequencesPattern {
         for (int j = 0; j < nseq - 1; j++) {
             for (int i = j + 1; i < nseq; i++) {
                 int v = 0;
-                double d;
                 for (int n = 0; n < k; n++) {
-                    if (m3[j][n] == m3[i][i]) {
+                    if (m3[j][n] == m3[i][n]) {
                         v++;
                     } else {
                         if (m3[j][n] > m3[i][n]) {
-                            if (m3[j][n] < (0.3 * m3[i][n])) {
+                            if (m3[j][n] <= (dif * m3[i][n])) {
                                 v++;
                             }
                         } else {
-                            if (m3[j][n] > (0.3 * m3[i][n])) {
+                            if ((m3[j][n] * dif) >= m3[i][n]) {
                                 v++;
                             }
                         }
                     }
                 }
-                mf[j][i] = (100 * v) / k;
+                mf[j][i] = ((100 * v) / k);
                 mf[i][j] = mf[j][i];
             }
         }
@@ -168,6 +170,7 @@ public final class SequencesPattern {
     public void SetFileName(String a) {
         filePath = a;
     }
+    private final double dif = 1.4d; //Dispersion 
     private final HashMap<String, Integer> pt;
     private String filePath;
     private String[] seq;
