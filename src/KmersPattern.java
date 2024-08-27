@@ -23,11 +23,11 @@ public class KmersPattern {
                             filelist[++k] = file.getAbsolutePath();
                         }
                     }
-                    SaveResult(filelist,folder.toPath().toString());
+                    SaveResult(filelist, folder.toPath().toString() + File.separator + "result.xls");
                 } else {
                     String[] filelist = new String[1];
                     filelist[0] = infile;
-                    SaveResult(filelist,folder.toPath().toString());
+                    SaveResult(filelist, folder.toPath().toString() + ".xls");
                 }
             }
         } else {

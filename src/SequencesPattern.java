@@ -1,6 +1,6 @@
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
@@ -81,32 +81,34 @@ public final class SequencesPattern {
     }
 
     public void SetFolder(String[] tfiles, String filePath) throws IOException {
-        reportfile = filePath + File.separator + "result.xls";
+        reportfile = filePath;
 
         seq = new String[0];
         sname = new String[0];
 
         for (String infile : tfiles) {
             try {
-                System.out.println("Target file: " + infile);
-                byte[] binaryArray = Files.readAllBytes(Paths.get(infile));
-                ReadingSequencesFiles rf = new ReadingSequencesFiles(binaryArray);
-                if (rf.getNseq() == 0) {
-                    System.out.println("There is no sequence(s).");
-                    System.out.println("File format in Fasta:\n>header\nsequence here\n\nIn FASTA format the line before the nucleotide sequence, called the FASTA definition line, must begin with a carat (\">\"), followed by a unique SeqID (sequence identifier).\nThe line after the FASTA definition line begins the nucleotide sequence.\n");
-                } else {
-                    String[] extSeq = new String[seq.length + rf.getNseq()];
-                    String[] extNam = new String[sname.length + rf.getNseq()];
-                    System.arraycopy(seq, 0, extSeq, 0, seq.length);
-                    System.arraycopy(sname, 0, extNam, 0, sname.length);
-                    String[] s = rf.getSequences();
-                    String[] n = rf.getNames();
-                    System.arraycopy(s, 0, extSeq, seq.length, s.length);
-                    System.arraycopy(n, 0, extNam, sname.length, n.length);
-                    seq = extSeq;
-                    sname = extNam;
-                    if (rf.getNseq() > 1) {
-                        System.out.println("Target FASTA sequences = " + rf.getNseq());
+                if (infile != null) {
+                    System.out.println("Target file: " + infile);
+                    byte[] binaryArray = Files.readAllBytes(Paths.get(infile));
+                    ReadingSequencesFiles rf = new ReadingSequencesFiles(binaryArray);
+                    if (rf.getNseq() == 0) {
+                        System.out.println("There is no sequence(s).");
+                        System.out.println("File format in Fasta:\n>header\nsequence here\n\nIn FASTA format the line before the nucleotide sequence, called the FASTA definition line, must begin with a carat (\">\"), followed by a unique SeqID (sequence identifier).\nThe line after the FASTA definition line begins the nucleotide sequence.\n");
+                    } else {
+                        String[] extSeq = new String[seq.length + rf.getNseq()];
+                        String[] extNam = new String[sname.length + rf.getNseq()];
+                        System.arraycopy(seq, 0, extSeq, 0, seq.length);
+                        System.arraycopy(sname, 0, extNam, 0, sname.length);
+                        String[] s = rf.getSequences();
+                        String[] n = rf.getNames();
+                        System.arraycopy(s, 0, extSeq, seq.length, s.length);
+                        System.arraycopy(n, 0, extNam, sname.length, n.length);
+                        seq = extSeq;
+                        sname = extNam;
+                        if (rf.getNseq() > 1) {
+                            System.out.println("Target FASTA sequences = " + rf.getNseq());
+                        }
                     }
                 }
             } catch (IOException e) {
