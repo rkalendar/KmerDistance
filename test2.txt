@@ -1,1 +1,16 @@
-C:\MyPrograms\Java\KmersPattern\test\t1.txt 
+https://www.oracle.com/java/technologies/downloads/
+
+E:\Genomes\Brachypodium\
+E:\Genomes\Zea_mays\
+E:\Genomes\GRCh38.p14\
+E:\Genomes\Viruses\
+E:\Genomes\Zea_mays\
+E:\Genomes\Hordeum_vulgare\
+E:\Genomes\Oryza_sativa\
+E:\Genomes\Ecoli\
+
+
+java -jar C:\MyPrograms\Java\KmersPattern\dist\KmersPattern.jar C:\MyPrograms\Java\KmersPattern\test\b1.txt
+
+
+java -jar C:\MyPrograms\Java\KmersPattern\dist\KmersPattern.jar E:\Genomes\Oryza_sativa\
