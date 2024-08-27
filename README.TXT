@@ -5,7 +5,7 @@
 Ruslan Kalendar 
 email: ruslan.kalendar@helsinki.fi
 
-[Web](http://primerdigital.com/tools/fastpcr.html)
+[Web](http://primerdigital.com/tools/)
 
 ## Availability and requirements:
 
