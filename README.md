@@ -1,4 +1,4 @@
-## KmersPattern
+## KmerDistance
 ## Identifications of genetic similarity or the distance between genomic sequences (In approximate string matching).
 
 ## Author
